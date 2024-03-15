@@ -133,7 +133,7 @@ const loginUser = async (req, res, next) => {
 // GET: User profile endpoint
 const getUserProfile = async (req, res, next) => {
   try {
-    const { userId } = req;
+    const { userId } = req.userId;
 
     // Retrieve user profile
     const user = await userModel.findById(userId);

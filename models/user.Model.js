@@ -21,6 +21,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  location: {
+    type: String,
+    default: "Delhi",
+  },
+  savedLocations: [
+    {
+      title: {
+        type: String,
+      },
+    },
+  ],
 });
 
 const userModel = mongoose.model("User", userSchema);
