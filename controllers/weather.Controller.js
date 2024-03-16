@@ -1,4 +1,6 @@
 import { userModel } from "../models/model.js";
+import nodemailer from 'nodemailer';
+import axios from 'axios';
 
 // POST: user post place name endpoint
 const addCurrentLocation = async (req, res, next) => {
@@ -140,25 +142,18 @@ const deleteSavedLocation = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Find the saved location by its ID and remove it
-    const index = user.savedLocations.findIndex(
-      (location) => location._id === locationId
-    );
-    if (index === -1) {
-      return res.status(404).json({ message: "Saved location not found" });
-    }
-    user.savedLocations.splice(index, 1);
-    await user.save();
+    // Use Mongoose's $pull operator to remove the location from the savedLocations array
+    await userModel.findByIdAndUpdate(userId, { $pull: { savedLocations: { _id: locationId } } });
 
-    return res
-      .status(200)
-      .json({ message: "Saved location deleted successfully" });
+    return res.status(200).json({ message: "Saved location deleted successfully" });
   } catch (error) {
     next(error);
     console.error("Error in deleteSavedLocation:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
 
 export {
   addCurrentLocation,

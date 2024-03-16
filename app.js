@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/user.Route.js";
 import errorMiddleware from "./middleware/error.Middleware.js";
-
+import weatherNotifications from "./controllers/weaterMailer.Controller.js";
 // Load environment variables from .env file
 dotenv.config();
 
@@ -34,10 +34,10 @@ mongoose
   .catch((error) => {
     console.error("Database connection error:", error);
   });
-  app.get('/', (req, res) => {
-    res.send('Hello, World!');
-  });
-  
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+weatherNotifications();
 // Routing
 app.use("/api/v1/user", userRoute);
 app.use(errorMiddleware); // Error handling middleware
