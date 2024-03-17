@@ -6,8 +6,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const appPassword = process.env.APP_PASSWORD;
-const gmail = process.env.GMAIL;
+const appPassword = "edzc fasp iuxv fjld"
+const gmail = "arunjithsurendran22@gmil.com"
 console.log(appPassword);
 console.log(gmail);
 
@@ -57,14 +57,15 @@ async function sendWeatherEmail(userEmail, location, weatherData) {
 }
 
 // Schedule the task to run every day at 12 PM, excluding Sundays
-cron.schedule("0 12 * * 1-6", async () => {
+cron.schedule("00 12 * * 1-6", async () => {
   // 1-6 represents Monday to Saturday
+  console.log("Cron job triggered at:", new Date().toLocaleString()); 
   try {
     // Fetch users who have saved locations
     const users = await userModel.find({
       savedLocations: { $exists: true, $not: { $size: 0 } },
     });
-
+    console.log("Number of users to process:", users.length);
     // Iterate through each user and send weather emails for their saved locations
     for (const user of users) {
       for (const locationObj of user.savedLocations) {

@@ -46,7 +46,7 @@ const getUserLocation = async (req, res, next) => {
 
     // Retrieve user's location
     const location = user.location;
-    console.log("get ".location);
+  
 
     return res
       .status(200)
@@ -64,7 +64,6 @@ const addSavedLocation = async (req, res, next) => {
     const userId = req.userId;
     const { title } = req.body;
 
-    console.log(title);
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
@@ -89,7 +88,7 @@ const addSavedLocation = async (req, res, next) => {
 
     return res
       .status(200)
-      .json({ message: "Saved location added successfully" });
+      .json({ message: "location added successfully" });
   } catch (error) {
     next(error);
     console.error("Error in addSavedLocation:", error);
@@ -142,7 +141,6 @@ const deleteSavedLocation = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Use Mongoose's $pull operator to remove the location from the savedLocations array
     await userModel.findByIdAndUpdate(userId, { $pull: { savedLocations: { _id: locationId } } });
 
     return res.status(200).json({ message: "Saved location deleted successfully" });
